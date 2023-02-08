@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Test {
-    public void test1() throws ClassNotFoundException, SQLException {
+    public static void main(String [] arg) throws ClassNotFoundException, SQLException {
         System.out.println( "Hello World!" );
         Class.forName("org.apache.calcite.jdbc.Driver");
         Properties info = new Properties();
@@ -23,9 +23,9 @@ public class Test {
 //        Schema schema = new ReflectiveSchema(new HrSchema());
         Class.forName("com.mysql.cj.jdbc.Driver");
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost");
-        dataSource.setUsername("debalina");
-        dataSource.setPassword("debalina");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/hotel_db?user=debalina&password=debalina");
+//        dataSource.setUsername("debalina");
+//        dataSource.setPassword("debalina");
         Schema schema = JdbcSchema.create(rootSchema, "hotel_db", dataSource,
                 null, "hotel_db");
         rootSchema.add("hotel_db", schema);
@@ -37,10 +37,10 @@ public class Test {
 //                        + "  on e.deptno = d.deptno\n"
 //                        + "group by d.deptno\n"
 //                        + "having count(*) > 1");
-        ResultSet resultSet = statement.executeQuery(
-                "select STREAM * from hotel_db");
-        System.out.print(resultSet);
-        resultSet.close();
+//        ResultSet resultSet = statement.executeQuery(
+//                "select STREAM * from hotel_db");
+//        System.out.print(resultSet);
+//        resultSet.close();
         System.out.println(rootSchema.getTableNames());
         statement.close();
         connection.close();

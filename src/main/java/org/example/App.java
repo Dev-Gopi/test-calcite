@@ -19,7 +19,7 @@ public class App
 //        public final Employee[] emps = 0;
 //        public final Department[] depts = 0;
     }
-    public static void main(String[] args ) throws ClassNotFoundException, SQLException {
+    public static void test(String[] args ) throws ClassNotFoundException, SQLException {
         System.out.println( "Hello World!" );
         Class.forName("org.apache.calcite.jdbc.Driver");
         Properties info = new Properties();
