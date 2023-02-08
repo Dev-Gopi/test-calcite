@@ -1,5 +1,6 @@
 package org.example;
 
+import lombok.val;
 import org.apache.calcite.adapter.jdbc.JdbcSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.Schema;
@@ -19,7 +20,7 @@ public class App
 //        public final Employee[] emps = 0;
 //        public final Department[] depts = 0;
     }
-    public static void test(String[] args ) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args ) throws ClassNotFoundException, SQLException {
         System.out.println( "Hello World!" );
         Class.forName("org.apache.calcite.jdbc.Driver");
         Properties info = new Properties();
@@ -30,16 +31,36 @@ public class App
         CalciteConnection calciteConnection =
                 connection.unwrap(CalciteConnection.class);
         final SchemaPlus rootSchema = calciteConnection.getRootSchema();
-//        Schema schema = new ReflectiveSchema(new HrSchema());
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost");
-        dataSource.setUsername("debalina");
-        dataSource.setPassword("debalina");
-        Schema schema = JdbcSchema.create(rootSchema, "hotel_db", dataSource,
-                null, "hotel_db");
-        rootSchema.add("hotel_db", schema);
-        calciteConnection.setSchema("hotel_db");
+     //  Schema schema = new ReflectiveSchema(new HrSchema());
+//        Class.forName("com.mysql.cj.jdbc.Driver");
+//        BasicDataSource dataSource = new BasicDataSource();
+//        dataSource.setUrl("jdbc:mysql://localhost:3306/user");
+//        dataSource.setUsername("debalina");
+//        dataSource.setPassword("debalina");
+
+
+
+
+//        Connection connection1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/user","debalina","debalina");
+//        Statement statement = connection1.createStatement();
+//        ResultSet resultSet = statement.executeQuery("select * from user_table");
+//        while (resultSet.next()){
+//            System.out.println(resultSet.getString("user_firstname"));
+//        }
+
+        val dsInsightUser = JdbcSchema.dataSource("jdbc:mysql://localhost:3306?useSSL=false&serverTimezone=UTC", "com.mysql.cj.jdbc.Driver", "debalina","debalina");
+
+        val abc = rootSchema.add("user", JdbcSchema.create(rootSchema, "user", dsInsightUser, null, null));
+
+
+
+
+//        Schema schema = JdbcSchema.create(rootSchema, "user_table", dsInsightUser,
+//                null, "user");
+//        rootSchema.add("user_table", schema);
+
+        System.out.println(calciteConnection.getSchema());
+//        calciteConnection.setSchema("user_table");
         Statement statement = calciteConnection.createStatement();
 //        ResultSet resultSet = statement.executeQuery(
 //                "select d.deptno, min(e.empid)\n"
@@ -53,8 +74,10 @@ public class App
 //                        + "from user");
 //        System.out.print(resultSet);
 //        resultSet.close();
-        System.out.println(rootSchema.getTableNames());
+        System.out.println(abc.getTableNames());
+//        statement.close();
         statement.close();
+
         connection.close();
     }
 }
