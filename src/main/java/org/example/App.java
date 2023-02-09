@@ -14,7 +14,7 @@ import java.util.Properties;
  * Hello world!
  *
  */
-public class App 
+public class App
 {
     public static class HrSchema {
 //        public final Employee[] emps = 0;
@@ -24,7 +24,7 @@ public class App
         System.out.println( "Hello World!" );
         Class.forName("org.apache.calcite.jdbc.Driver");
         Properties info = new Properties();
-        info.setProperty("lex", "JAVA");
+        info.setProperty("lex", "MYSQL");
 
         Connection connection =
                 DriverManager.getConnection("jdbc:calcite:", info);
@@ -33,7 +33,7 @@ public class App
         final SchemaPlus rootSchema = calciteConnection.getRootSchema();
      //  Schema schema = new ReflectiveSchema(new HrSchema());
 //        Class.forName("com.mysql.cj.jdbc.Driver");
-//        BasicDataSource dataSource = new BasicDataSource();
+        BasicDataSource dataSource = new BasicDataSource();
 //        dataSource.setUrl("jdbc:mysql://localhost:3306/user");
 //        dataSource.setUsername("debalina");
 //        dataSource.setPassword("debalina");
@@ -48,18 +48,16 @@ public class App
 //            System.out.println(resultSet.getString("user_firstname"));
 //        }
 
-        val dsInsightUser = JdbcSchema.dataSource("jdbc:mysql://localhost:3306?useSSL=false&serverTimezone=UTC", "com.mysql.cj.jdbc.Driver", "debalina","debalina");
+        val dsInsightUser = JdbcSchema.dataSource("jdbc:mysql://localhost:3306/hotel_db?useSSL=false&serverTimezone=UTC", "com.mysql.cj.jdbc.Driver", "debalina","debalina");
 
         val abc = rootSchema.add("user", JdbcSchema.create(rootSchema, "user", dsInsightUser, null, null));
-
-
 
 
 //        Schema schema = JdbcSchema.create(rootSchema, "user_table", dsInsightUser,
 //                null, "user");
 //        rootSchema.add("user_table", schema);
 
-        System.out.println(calciteConnection.getSchema());
+//        System.out.println(calciteConnection.getSchema());
 //        calciteConnection.setSchema("user_table");
         Statement statement = calciteConnection.createStatement();
 //        ResultSet resultSet = statement.executeQuery(
